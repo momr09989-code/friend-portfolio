@@ -72,6 +72,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  // Ensure native and touch scrolling triggers ScrollTrigger updates on mobile
+  window.addEventListener('scroll', () => {
+    if (typeof ScrollTrigger !== 'undefined') {
+      ScrollTrigger.update();
+    }
+  }, { passive: true });
+
   /* ------------------------------------------------------------------------
      3. Navbar Scroll State & Active Section Spy
      ------------------------------------------------------------------------ */
@@ -196,42 +203,59 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   /* ------------------------------------------------------------------------
-     6. GSAP Animations & ScrollTrigger Reveals (Power3.out & Early Triggers)
+     6. GSAP Animations & ScrollTrigger Reveals (Zero Mobile Blank Space)
      ------------------------------------------------------------------------ */
   if (typeof gsap !== 'undefined') {
     if (typeof ScrollTrigger !== 'undefined') {
       gsap.registerPlugin(ScrollTrigger);
     }
 
-    // Hero Section Entrance Timeline (Power3.out)
+    const isMobile = window.innerWidth <= 768;
+    const initialOpacity = isMobile ? 1 : 0;
+    const triggerStart = isMobile ? 'top 96%' : 'top 88%';
+
+    // Hero Section Entrance Timeline
     const heroTl = gsap.timeline({ defaults: { ease: 'power3.out', duration: 0.75 } });
 
-    heroTl
-      .from('.status-badge', { y: -15, opacity: 0, duration: 0.55 })
-      .from('.hero-title', { y: 25, opacity: 0, duration: 0.8 }, '-=0.35')
-      .from('.hero-subtitle', { y: 20, opacity: 0, duration: 0.65 }, '-=0.45')
-      .from('.hero-tags .tag', { scale: 0.9, opacity: 0, stagger: 0.06, duration: 0.45 }, '-=0.35')
-      .from('.hero-actions .btn', { y: 15, opacity: 0, stagger: 0.08, duration: 0.55 }, '-=0.3')
-      .from('.hero-stats', { y: 20, opacity: 0, duration: 0.6 }, '-=0.35')
-      .from('.profile-card-wrapper', { scale: 0.94, opacity: 0, duration: 0.85, ease: 'back.out(1.2)' }, '-=0.65')
-      .from('.floating-badge', { y: 15, opacity: 0, stagger: 0.15, duration: 0.55 }, '-=0.35')
-      .add(() => {
-        animateCounters();
-      }, '-=0.4');
+    if (isMobile) {
+      // Mobile: Keep all content completely visible without blank screens
+      heroTl
+        .from('.status-badge', { y: -10, duration: 0.4 })
+        .from('.hero-title', { y: 15, duration: 0.5 }, '-=0.25')
+        .from('.hero-subtitle', { y: 12, duration: 0.45 }, '-=0.3')
+        .from('.hero-actions .btn', { y: 10, stagger: 0.05, duration: 0.4 }, '-=0.25')
+        .from('.hero-stats', { y: 10, duration: 0.4 }, '-=0.2')
+        .add(() => {
+          animateCounters();
+        }, '-=0.2');
+    } else {
+      heroTl
+        .from('.status-badge', { y: -15, opacity: 0, duration: 0.55 })
+        .from('.hero-title', { y: 25, opacity: 0, duration: 0.8 }, '-=0.35')
+        .from('.hero-subtitle', { y: 20, opacity: 0, duration: 0.65 }, '-=0.45')
+        .from('.hero-tags .tag', { scale: 0.9, opacity: 0, stagger: 0.06, duration: 0.45 }, '-=0.35')
+        .from('.hero-actions .btn', { y: 15, opacity: 0, stagger: 0.08, duration: 0.55 }, '-=0.3')
+        .from('.hero-stats', { y: 20, opacity: 0, duration: 0.6 }, '-=0.35')
+        .from('.profile-card-wrapper', { scale: 0.94, opacity: 0, duration: 0.85, ease: 'back.out(1.2)' }, '-=0.65')
+        .from('.floating-badge', { y: 15, opacity: 0, stagger: 0.15, duration: 0.55 }, '-=0.35')
+        .add(() => {
+          animateCounters();
+        }, '-=0.4');
+    }
 
-    // ScrollTrigger Early Reveals (start at top 88% - 90% for fluid mobile flow)
+    // ScrollTrigger Early Reveals
     if (typeof ScrollTrigger !== 'undefined') {
       // Section Headers
       gsap.utils.toArray('.section-header').forEach((header) => {
         gsap.from(header, {
           scrollTrigger: {
             trigger: header,
-            start: 'top 88%',
+            start: triggerStart,
             toggleActions: 'play none none none'
           },
-          y: 28,
-          opacity: 0,
-          duration: 0.75,
+          y: isMobile ? 12 : 28,
+          opacity: initialOpacity,
+          duration: 0.65,
           ease: 'power3.out'
         });
       });
@@ -240,23 +264,23 @@ document.addEventListener('DOMContentLoaded', () => {
       gsap.from('.about-bio-card', {
         scrollTrigger: {
           trigger: '.about-grid',
-          start: 'top 88%'
+          start: triggerStart
         },
-        y: 25,
-        opacity: 0,
-        duration: 0.8,
+        y: isMobile ? 12 : 25,
+        opacity: initialOpacity,
+        duration: 0.7,
         ease: 'power3.out'
       });
 
       gsap.from('.pillar-card', {
         scrollTrigger: {
           trigger: '.about-pillars',
-          start: 'top 88%'
+          start: triggerStart
         },
-        y: 25,
-        opacity: 0,
-        stagger: 0.12,
-        duration: 0.65,
+        y: isMobile ? 12 : 25,
+        opacity: initialOpacity,
+        stagger: isMobile ? 0.04 : 0.12,
+        duration: 0.6,
         ease: 'power3.out'
       });
 
@@ -265,11 +289,11 @@ document.addEventListener('DOMContentLoaded', () => {
         gsap.from(item, {
           scrollTrigger: {
             trigger: item,
-            start: 'top 90%'
+            start: triggerStart
           },
-          y: 30,
-          opacity: 0,
-          duration: 0.65,
+          y: isMobile ? 12 : 30,
+          opacity: initialOpacity,
+          duration: 0.6,
           ease: 'power3.out'
         });
       });
@@ -278,12 +302,12 @@ document.addEventListener('DOMContentLoaded', () => {
       gsap.from('.education-card', {
         scrollTrigger: {
           trigger: '.education-grid',
-          start: 'top 88%'
+          start: triggerStart
         },
-        y: 30,
-        scale: 0.98,
-        opacity: 0,
-        duration: 0.75,
+        y: isMobile ? 12 : 30,
+        scale: isMobile ? 1 : 0.98,
+        opacity: initialOpacity,
+        duration: 0.65,
         ease: 'power3.out'
       });
 
@@ -292,11 +316,11 @@ document.addEventListener('DOMContentLoaded', () => {
         gsap.from(card, {
           scrollTrigger: {
             trigger: card,
-            start: 'top 90%'
+            start: triggerStart
           },
-          y: 28,
-          opacity: 0,
-          duration: 0.65,
+          y: isMobile ? 12 : 28,
+          opacity: initialOpacity,
+          duration: 0.6,
           ease: 'power3.out',
           onComplete: () => {
             const fills = card.querySelectorAll('.progress-fill');
@@ -311,29 +335,34 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       });
 
-
       // Contact Panel & Form
       gsap.from('.contact-info-panel .contact-card', {
         scrollTrigger: {
           trigger: '.contact-grid',
-          start: 'top 88%'
+          start: triggerStart
         },
-        y: 22,
-        opacity: 0,
-        stagger: 0.1,
-        duration: 0.6,
+        y: isMobile ? 10 : 22,
+        opacity: initialOpacity,
+        stagger: isMobile ? 0.04 : 0.1,
+        duration: 0.55,
         ease: 'power3.out'
       });
 
       gsap.from('.contact-form-panel', {
         scrollTrigger: {
           trigger: '.contact-grid',
-          start: 'top 88%'
+          start: triggerStart
         },
-        y: 25,
-        opacity: 0,
-        duration: 0.75,
+        y: isMobile ? 10 : 25,
+        opacity: initialOpacity,
+        duration: 0.65,
         ease: 'power3.out'
+      });
+
+      // Refresh triggers after load
+      ScrollTrigger.refresh();
+      window.addEventListener('load', () => {
+        ScrollTrigger.refresh();
       });
     }
   }
