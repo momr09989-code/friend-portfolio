@@ -187,13 +187,23 @@ button, input, textarea {
   padding-right: clamp(1rem, 3.5vw, 2rem);
 }
 
-/* Ambient Background Lights */
-.ambient-glow {
+/* Ambient Background Lights Container */
+.ambient-glow-container {
   position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.ambient-glow {
+  position: absolute;
   border-radius: 50%;
   filter: blur(120px);
   pointer-events: none;
-  z-index: 0;
   opacity: 0.5;
   transition: background var(--transition-slow);
 }

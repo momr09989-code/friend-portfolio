@@ -242,7 +242,7 @@ document.addEventListener('DOMContentLoaded', () => {
           trigger: '.about-grid',
           start: 'top 88%'
         },
-        x: -30,
+        y: 25,
         opacity: 0,
         duration: 0.8,
         ease: 'power3.out'
@@ -253,7 +253,7 @@ document.addEventListener('DOMContentLoaded', () => {
           trigger: '.about-pillars',
           start: 'top 88%'
         },
-        x: 30,
+        y: 25,
         opacity: 0,
         stagger: 0.12,
         duration: 0.65,
@@ -343,7 +343,7 @@ document.addEventListener('DOMContentLoaded', () => {
           trigger: '.contact-grid',
           start: 'top 88%'
         },
-        x: -28,
+        y: 22,
         opacity: 0,
         stagger: 0.1,
         duration: 0.6,
@@ -355,7 +355,7 @@ document.addEventListener('DOMContentLoaded', () => {
           trigger: '.contact-grid',
           start: 'top 88%'
         },
-        x: 28,
+        y: 25,
         opacity: 0,
         duration: 0.75,
         ease: 'power3.out'
