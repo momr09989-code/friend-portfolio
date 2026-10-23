@@ -311,31 +311,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       });
 
-      // Project / Milestone Cards
-      gsap.from('.project-card', {
-        scrollTrigger: {
-          trigger: '.projects-grid',
-          start: 'top 88%'
-        },
-        y: 35,
-        opacity: 0,
-        stagger: 0.14,
-        duration: 0.7,
-        ease: 'power3.out'
-      });
-
-      // Certification Cards
-      gsap.from('.cert-card', {
-        scrollTrigger: {
-          trigger: '.certifications-grid',
-          start: 'top 88%'
-        },
-        scale: 0.96,
-        opacity: 0,
-        stagger: 0.16,
-        duration: 0.75,
-        ease: 'power3.out'
-      });
 
       // Contact Panel & Form
       gsap.from('.contact-info-panel .contact-card', {
