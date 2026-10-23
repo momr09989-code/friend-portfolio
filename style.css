@@ -2158,7 +2158,7 @@ button, input, textarea {
   }
 }
 
-/* Mobile Devices (Phones & Tablets) */
+/* Mobile Devices (Phones & Tablets - Max Width 768px) */
 @media (max-width: 768px) {
   /* Prevent Any Horizontal Scroll / Overflow */
   html, body {
@@ -2167,48 +2167,60 @@ button, input, textarea {
     max-width: 100vw !important;
   }
 
+  /* Aggressive Section Spacing Override: Tight & Cohesive Flow */
+  section,
+  .section,
+  #hero,
+  #about,
+  #experience,
+  #education,
+  #skills,
+  #contact {
+    padding: 30px 15px !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    min-height: auto !important;
+  }
+
+  /* Hero Section Top Spacing to Clear Sticky Navbar */
+  section.hero-section,
+  #hero {
+    padding-top: 55px !important;
+    padding-bottom: 25px !important;
+  }
+
   /* Compact Container Padding */
   .container {
-    padding-left: 1rem !important;
-    padding-right: 1rem !important;
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+    max-width: 100% !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
   }
 
-  /* Tighter Section Padding on Mobile */
-  .section {
-    padding-top: 1.8rem !important;
-    padding-bottom: 1.8rem !important;
-  }
-
-  .hero-section {
-    padding-top: 4.8rem !important;
-    padding-bottom: 1.8rem !important;
-  }
-
+  /* Compact Section Headers */
   .section-header {
-    margin-bottom: 1.2rem !important;
+    margin: 0 auto 15px auto !important;
+    margin-bottom: 15px !important;
+    padding: 0 !important;
   }
 
-  /* Compact Typography for Mobile Screens */
-  .hero-title {
-    font-size: clamp(1.75rem, 7vw, 2.3rem) !important;
-    line-height: 1.18 !important;
-    margin-bottom: 0.75rem !important;
+  .section-badge {
+    margin-bottom: 6px !important;
+    font-size: 0.74rem !important;
+    padding: 0.25rem 0.75rem !important;
   }
 
   .section-title {
-    font-size: clamp(1.5rem, 6vw, 1.95rem) !important;
+    font-size: clamp(1.45rem, 5.5vw, 1.85rem) !important;
     line-height: 1.2 !important;
-    margin-bottom: 0.5rem !important;
-  }
-
-  .hero-subtitle {
-    font-size: 0.9rem !important;
-    line-height: 1.55 !important;
-    margin-bottom: 1rem !important;
+    margin-bottom: 6px !important;
   }
 
   .section-description {
-    font-size: 0.85rem !important;
+    font-size: 0.84rem !important;
+    line-height: 1.45 !important;
+    margin-bottom: 12px !important;
   }
 
   /* Mobile Navigation Drawer */
@@ -2222,8 +2234,8 @@ button, input, textarea {
     -webkit-backdrop-filter: blur(24px);
     border-bottom: 1px solid var(--border-glass);
     flex-direction: column;
-    padding: 1.6rem 1.2rem;
-    gap: 1.1rem;
+    padding: 1.4rem 1.2rem;
+    gap: 1rem;
     transform: translateY(-120%);
     opacity: 0;
     pointer-events: none;
@@ -2245,51 +2257,74 @@ button, input, textarea {
     display: none;
   }
 
-  /* Perfect Single-Column Stacking */
+  /* Perfect Single-Column Stacking Without Gaps */
   .hero-grid,
   .about-grid,
   .skills-grid,
-  .projects-grid,
-  .certifications-grid,
   .contact-grid {
     grid-template-columns: 1fr !important;
-    gap: 1rem !important;
+    gap: 14px !important;
+    margin-bottom: 0 !important;
   }
 
   .form-row {
     grid-template-columns: 1fr !important;
-    gap: 0.8rem !important;
+    gap: 0.7rem !important;
   }
 
   .tools-grid {
     grid-template-columns: repeat(2, 1fr) !important;
-    gap: 0.6rem !important;
+    gap: 0.55rem !important;
   }
 
   .personal-info-grid {
     grid-template-columns: 1fr !important;
-    gap: 0.65rem !important;
+    gap: 0.55rem !important;
+    padding-top: 10px !important;
+    margin-top: 0 !important;
   }
 
   /* Hero Elements Adaptation */
+  .hero-title {
+    font-size: clamp(1.7rem, 6.5vw, 2.15rem) !important;
+    line-height: 1.18 !important;
+    margin-bottom: 0.65rem !important;
+  }
+
+  .hero-subtitle {
+    font-size: 0.88rem !important;
+    line-height: 1.5 !important;
+    margin-bottom: 0.9rem !important;
+  }
+
+  .hero-tags {
+    justify-content: center;
+    gap: 0.35rem !important;
+    margin-bottom: 1rem !important;
+  }
+
   .hero-actions {
     flex-direction: column;
     align-items: stretch;
     width: 100%;
-    gap: 0.65rem;
+    gap: 0.55rem !important;
+    margin-bottom: 1.1rem !important;
   }
 
   .hero-actions .btn {
     width: 100%;
     max-width: 100%;
+    padding: 0.65rem 1.2rem !important;
+    font-size: 0.88rem !important;
   }
 
   .hero-stats {
     flex-direction: column;
     width: 100% !important;
     align-items: center;
-    gap: 0.75rem !important;
-    padding: 1rem !important;
+    gap: 0.55rem !important;
+    padding: 0.85rem !important;
+    margin: 0 auto 12px auto !important;
   }
 
   .stat-divider {
@@ -2297,85 +2332,191 @@ button, input, textarea {
     height: 1px !important;
   }
 
+  .stat-number {
+    font-size: 1.5rem !important;
+  }
+
   /* 3D Profile Card Constraint for Mobile */
   .profile-card-wrapper {
-    max-width: 280px !important;
-    margin: 0 auto;
+    max-width: 270px !important;
+    margin: 0 auto 10px auto !important;
     transform: none !important;
   }
 
   .floating-badge {
     position: static !important;
-    margin: 0.6rem auto 0 !important;
+    margin: 0.5rem auto 0 !important;
     animation: none !important;
     transform: none !important;
     width: 100% !important;
   }
 
+  /* About Section Compact */
+  .about-bio-card {
+    padding: 14px !important;
+    margin-bottom: 0 !important;
+  }
+
+  .bio-icon-quote {
+    font-size: 1.5rem !important;
+    margin-bottom: 0.35rem !important;
+  }
+
+  .bio-lead {
+    font-size: 0.95rem !important;
+    margin-bottom: 0.65rem !important;
+  }
+
+  .bio-text {
+    font-size: 0.84rem !important;
+    margin-bottom: 0.9rem !important;
+  }
+
+  .about-pillars {
+    gap: 8px !important;
+  }
+
+  .pillar-card {
+    padding: 10px 12px !important;
+    gap: 0.75rem !important;
+  }
+
+  .pillar-icon {
+    width: 36px !important;
+    height: 36px !important;
+    font-size: 1rem !important;
+  }
+
   /* Timeline on Mobile */
   .timeline {
-    padding-left: 1.8rem !important;
+    padding-left: 1.6rem !important;
+    margin-bottom: 0 !important;
   }
 
   .timeline::before {
-    left: 13px !important;
+    left: 11px !important;
   }
 
   .timeline-marker {
-    left: -1.8rem !important;
-    width: 28px !important;
-    height: 28px !important;
-    font-size: 0.75rem !important;
-    top: 0.9rem !important;
+    left: -1.6rem !important;
+    width: 25px !important;
+    height: 25px !important;
+    font-size: 0.7rem !important;
+    top: 0.8rem !important;
+  }
+
+  .timeline-item {
+    margin-bottom: 12px !important;
   }
 
   .timeline-card {
-    padding: 1.1rem !important;
+    padding: 12px 10px !important;
   }
 
   .timeline-header {
     flex-direction: column;
     align-items: flex-start;
-    gap: 0.35rem;
+    gap: 0.25rem !important;
+    margin-bottom: 0.4rem !important;
   }
 
   .timeline-role {
-    font-size: 1.02rem !important;
+    font-size: 0.96rem !important;
   }
 
-  /* Cards Padding on Mobile */
-  .about-bio-card,
+  .timeline-desc {
+    font-size: 0.82rem !important;
+    margin-bottom: 0.5rem !important;
+  }
+
+  .timeline-bullets {
+    margin-bottom: 0.5rem !important;
+    gap: 0.25rem !important;
+  }
+
+  .filter-tabs {
+    margin-bottom: 14px !important;
+    gap: 0.4rem !important;
+  }
+
+  .filter-btn {
+    padding: 0.4rem 0.85rem !important;
+    font-size: 0.78rem !important;
+  }
+
+  /* Education & Skills Cards Padding on Mobile */
   .education-card,
   .contact-form-panel {
-    padding: 1.25rem !important;
+    padding: 14px !important;
+    margin-bottom: 0 !important;
   }
 
-  .cert-card {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 1.25rem !important;
-    gap: 0.9rem !important;
-  }
-
-  .project-card,
   .skill-card {
-    padding: 1.25rem !important;
+    padding: 12px 14px !important;
+    margin-bottom: 0 !important;
   }
 
-  /* Contact Actions */
+  .skill-card-header {
+    margin-bottom: 0.65rem !important;
+  }
+
+  .skill-list {
+    gap: 0.65rem !important;
+  }
+
+  /* Contact Section & WhatsApp Button */
+  #contact {
+    padding: 30px 15px !important;
+  }
+
+  .contact-info-panel {
+    gap: 8px !important;
+  }
+
+  .contact-card {
+    padding: 10px 12px !important;
+  }
+
   .contact-actions-row {
     flex-wrap: wrap;
-    gap: 0.6rem;
+    gap: 0.5rem !important;
+    margin-top: 0.35rem !important;
+  }
+
+  .contact-whatsapp-action {
+    margin-top: 8px !important;
+    margin-bottom: 8px !important;
+  }
+
+  .whatsapp-btn {
+    padding: 10px 22px !important;
+    font-size: 0.92rem !important;
+  }
+
+  .form-title {
+    margin-bottom: 10px !important;
+  }
+
+  .form-group {
+    margin-bottom: 8px !important;
+  }
+
+  .footer {
+    padding: 20px 0 15px 0 !important;
+  }
+
+  .footer-content {
+    gap: 12px !important;
   }
 }
 
 /* Very Small Mobile Screens (360px and below) */
 @media (max-width: 420px) {
   .hero-title {
-    font-size: 1.6rem !important;
+    font-size: 1.55rem !important;
   }
   .section-title {
-    font-size: 1.4rem !important;
+    font-size: 1.35rem !important;
   }
   .tools-grid {
     grid-template-columns: 1fr !important;
@@ -2383,8 +2524,8 @@ button, input, textarea {
   .back-to-top {
     bottom: 1rem;
     right: 1rem;
-    width: 38px;
-    height: 38px;
-    font-size: 0.85rem;
+    width: 36px;
+    height: 36px;
+    font-size: 0.82rem;
   }
 }
