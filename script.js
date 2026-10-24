@@ -13,6 +13,94 @@ document.addEventListener('DOMContentLoaded', () => {
   'use strict';
 
   /* ------------------------------------------------------------------------
+     0. Preloader Screen & Hero Entrance Orchestrator
+     ------------------------------------------------------------------------ */
+  const preloader = document.getElementById('preloader');
+  const preloaderBar = document.getElementById('preloaderBar');
+  const preloaderCounter = document.getElementById('preloaderCounter');
+  let preloaderDismissed = false;
+  let heroTl = null;
+  let lenis = null;
+
+  function playHeroEntrance() {
+    if (heroTl) {
+      heroTl.play();
+    } else {
+      animateCounters();
+    }
+  }
+
+  function dismissPreloader() {
+    if (preloaderDismissed) return;
+    preloaderDismissed = true;
+
+    if (preloaderBar) preloaderBar.style.width = '100%';
+    if (preloaderCounter) preloaderCounter.textContent = '100%';
+
+    // Smooth GSAP curtain exit or CSS fallback
+    if (typeof gsap !== 'undefined' && preloader) {
+      gsap.to('.preloader-content', {
+        y: -18,
+        opacity: 0,
+        duration: 0.35,
+        ease: 'power3.in',
+        onComplete: () => {
+          preloader.classList.add('loaded');
+          setTimeout(() => {
+            preloader.style.display = 'none';
+            document.body.style.overflow = '';
+            if (lenis) lenis.start();
+          }, 600);
+          playHeroEntrance();
+        }
+      });
+    } else if (preloader) {
+      preloader.classList.add('loaded');
+      setTimeout(() => {
+        preloader.style.display = 'none';
+        document.body.style.overflow = '';
+        if (lenis) lenis.start();
+      }, 600);
+      playHeroEntrance();
+    } else {
+      playHeroEntrance();
+    }
+  }
+
+  function initPreloader() {
+    if (!preloader || !preloaderBar || !preloaderCounter) {
+      playHeroEntrance();
+      return;
+    }
+
+    document.body.style.overflow = 'hidden';
+    if (lenis) lenis.stop();
+
+    const duration = 1100; // ms
+    const startTime = performance.now();
+
+    function updateProgress(currentTime) {
+      if (preloaderDismissed) return;
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(Math.round((elapsed / duration) * 100), 100);
+
+      preloaderBar.style.width = `${progress}%`;
+      preloaderCounter.textContent = `${progress}%`;
+
+      if (progress < 100) {
+        requestAnimationFrame(updateProgress);
+      } else {
+        dismissPreloader();
+      }
+    }
+
+    requestAnimationFrame(updateProgress);
+
+    // Fail-safe fallback timeout: Never trap user
+    setTimeout(dismissPreloader, 1800);
+  }
+
+  /* ------------------------------------------------------------------------
      1. Dark / Light Mode Theme Engine
      ------------------------------------------------------------------------ */
   const htmlEl = document.documentElement;
@@ -42,8 +130,6 @@ document.addEventListener('DOMContentLoaded', () => {
   /* ------------------------------------------------------------------------
      2. Initialize Lenis Smooth Scroll & Sync with GSAP ScrollTrigger
      ------------------------------------------------------------------------ */
-  let lenis = null;
-
   if (typeof Lenis !== 'undefined') {
     lenis = new Lenis({
       lerp: 0.08,             // Buttery soft and fluid interpolation
@@ -53,6 +139,10 @@ document.addEventListener('DOMContentLoaded', () => {
       smoothTouch: false,      // Preserves 120Hz native touch responsiveness on mobile
       infinite: false
     });
+
+    if (!preloaderDismissed) {
+      lenis.stop();
+    }
 
     // Connect Lenis to GSAP ScrollTrigger
     if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
@@ -214,8 +304,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const initialOpacity = isMobile ? 1 : 0;
     const triggerStart = isMobile ? 'top 96%' : 'top 88%';
 
-    // Hero Section Entrance Timeline
-    const heroTl = gsap.timeline({ defaults: { ease: 'power3.out', duration: 0.75 } });
+    // Hero Section Entrance Timeline (Paused until preloader curtain exit)
+    heroTl = gsap.timeline({ paused: true, defaults: { ease: 'power3.out', duration: 0.75 } });
 
     if (isMobile) {
       // Mobile: Keep all content completely visible without blank screens
@@ -609,4 +699,9 @@ document.addEventListener('DOMContentLoaded', () => {
   if (yearEl) {
     yearEl.textContent = new Date().getFullYear();
   }
+
+  /* ------------------------------------------------------------------------
+     14. Launch Preloader Sequence
+     ------------------------------------------------------------------------ */
+  initPreloader();
 });

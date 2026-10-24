@@ -369,6 +369,174 @@ button, input, textarea {
   width: 100%;
 }
 
+/* ==========================================================================
+   Preloader Screen & Custom SVG Brand Monogram
+   ========================================================================== */
+.preloader {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 99999;
+  background: var(--bg-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+
+.preloader.loaded {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.preloader-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+  text-align: center;
+  padding: 1.5rem;
+  position: relative;
+  z-index: 2;
+}
+
+.preloader-logo-wrap {
+  position: relative;
+  width: 92px;
+  height: 92px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.preloader-ring {
+  position: absolute;
+  inset: -6px;
+  border-radius: 22px;
+  border: 2px solid transparent;
+  border-top-color: var(--secondary);
+  border-bottom-color: var(--primary);
+  filter: drop-shadow(0 0 14px rgba(var(--primary-rgb), 0.45));
+  animation: preloaderSpin 2.4s linear infinite;
+}
+
+.preloader-svg {
+  width: 78px;
+  height: 78px;
+  filter: drop-shadow(0 4px 18px rgba(var(--primary-rgb), 0.45));
+  animation: preloaderPulse 2.4s ease-in-out infinite;
+}
+
+@keyframes preloaderSpin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes preloaderPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.04); }
+}
+
+.preloader-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.preloader-title {
+  font-family: var(--font-display);
+  font-size: 1.18rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+.preloader-subtitle {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.preloader-progress-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.55rem;
+  margin-top: 0.25rem;
+}
+
+.preloader-bar-track {
+  width: 220px;
+  height: 4px;
+  background: var(--border-glass);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  position: relative;
+}
+
+.preloader-bar-fill {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  border-radius: var(--radius-full);
+  transition: width 0.08s linear;
+  box-shadow: 0 0 10px rgba(var(--secondary-rgb), 0.5);
+}
+
+.preloader-counter {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--primary-light);
+  letter-spacing: 0.08em;
+  min-width: 45px;
+  text-align: center;
+}
+
+/* Brand SVG Monograms */
+.brand-svg {
+  display: inline-block;
+  vertical-align: middle;
+  transition: transform var(--transition-fast), filter var(--transition-fast);
+}
+
+.brand-svg-bg {
+  transition: fill var(--transition-fast), stroke var(--transition-fast);
+}
+
+[data-theme="light"] .brand-svg-bg {
+  fill: rgba(79, 70, 229, 0.08) !important;
+  stroke: rgba(79, 70, 229, 0.45) !important;
+}
+
+.nav-brand-svg {
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  filter: drop-shadow(0 2px 8px rgba(var(--primary-rgb), 0.35));
+}
+
+.nav-brand:hover .nav-brand-svg {
+  transform: scale(1.06) rotate(-3deg);
+  filter: drop-shadow(0 4px 14px rgba(var(--secondary-rgb), 0.5));
+}
+
+.footer-brand-svg {
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+  vertical-align: middle;
+}
+
 /* --------------------------------------------------------------------------
    4. Navigation Bar
    -------------------------------------------------------------------------- */
@@ -1992,12 +2160,23 @@ button, input, textarea {
 }
 
 .footer-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
   font-family: var(--font-display);
   font-size: 1.15rem;
   font-weight: 700;
   color: var(--text-primary);
-  display: inline-block;
   margin-bottom: 0.35rem;
+  transition: color var(--transition-fast);
+}
+
+.footer-logo:hover {
+  color: var(--primary-light);
+}
+
+.footer-logo:hover .footer-brand-svg {
+  transform: scale(1.08);
 }
 
 .footer-brand p {
@@ -2165,6 +2344,33 @@ button, input, textarea {
     overflow-x: hidden !important;
     width: 100% !important;
     max-width: 100vw !important;
+  }
+
+  /* Preloader Mobile Responsiveness */
+  .preloader-logo-wrap {
+    width: 76px !important;
+    height: 76px !important;
+  }
+
+  .preloader-ring {
+    border-radius: 18px !important;
+  }
+
+  .preloader-svg {
+    width: 64px !important;
+    height: 64px !important;
+  }
+
+  .preloader-bar-track {
+    width: 170px !important;
+  }
+
+  .preloader-title {
+    font-size: 1.05rem !important;
+  }
+
+  .preloader-subtitle {
+    font-size: 0.72rem !important;
   }
 
   /* Force Section Heights and Spacing per Requirements (Zero Blank Space) */
